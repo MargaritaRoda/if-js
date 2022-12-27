@@ -43,40 +43,23 @@ function generateRandomArray() {
   return arr;
 }
 
-console.log(generateRandomArray());
+// console.log(generateRandomArray());
 
 function replaceZerosToString(arr) {
-  console.log('replaceZerosToString: ', arr);
-  const newArray = Array(arr.length);
+  const newarr = Array(arr.length);
   for (let i = 0; i < arr.length; i += 1) {
-    const arrElementAsString = arr[i] + '';
-    console.log('arrElementAsString', arrElementAsString);
-    const arrElementAsNumbersArray = Array(arrElementAsString.length);
-    for (let j = 0; j < arrElementAsNumbersArray.length; j += 1) {
-      arrElementAsNumbersArray[j] = arrElementAsString[j];
-    }
-    console.log('arrElementAsNumbersArray', arrElementAsNumbersArray);
-
-    let hadZeros = false;
-    for (let j = 0; j < arrElementAsNumbersArray.length; j += 1) {
-      if (arrElementAsNumbersArray[j] === '0') {
-        arrElementAsNumbersArray[j] = 'zero';
-        hadZeros = true;
-      }
-    }
-    if (hadZeros) {
-      console.log('arrElementAsNumbersArray', arrElementAsNumbersArray);
-      let newArrayElement = '';
-      for (let j = 0; j < arrElementAsNumbersArray.length; j += 1) {
-        newArrayElement = newArrayElement + arrElementAsNumbersArray[j];
-      }
-      console.log(newArrayElement);
-      newArray[i] = newArrayElement;
+    if (arr[i] === 100) {
+      newarr[i] = '1zerozero';
+    } else if (arr[i] % 10 === 0) {
+      newarr[i] = arr[i] / 10 + 'zero';
     } else {
-      newArray[i] = arr[i];
+      newarr[i] = arr[i];
     }
   }
-  return newArray;
+  return newarr;
 }
 
-console.log(replaceZerosToString(generateRandomArray()));
+const a = generateRandomArray();
+const b = replaceZerosToString(a);
+console.log(a);
+console.log(b);
