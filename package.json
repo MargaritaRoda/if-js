@@ -2,11 +2,12 @@
   "name": "if-js",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "husky install",
-    "lint": "prettier --write . && eslint main.js --fix"
+    "lint": "prettier --write . && eslint src/main.js --fix",
+    "prepublish": "npm run lint && run test"
   },
   "repository": {
     "type": "git",
@@ -20,8 +21,13 @@
   },
   "homepage": "https://github.com/MargaritaRoda/if-js#readme",
   "devDependencies": {
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@ngneat/falso": "^6.3.2",
+    "babel-jest": "^29.3.1",
     "eslint": "^8.29.0",
     "husky": "^8.0.2",
+    "jest": "^29.3.1",
     "prettier": "2.8.1"
   }
 }
