@@ -1,8 +1,5 @@
 function checkPalindrome(str) {
-  if (str.split('').reverse().join('') === str) {
-    return `${str} is a palindrome`;
-  }
-  return `${str} is not a palindrome`;
+  return str.split('').reverse().join('') === str;
 }
 console.log(checkPalindrome('шабаш'));
 
@@ -167,7 +164,10 @@ const hotels = [
 const str = 'USA';
 const result = hotels
   .filter(
-    (item) => item.country === str || item.city === str || item.name === str,
+    (item) =>
+      item.country.includes(str) ||
+      item.city.includes(str) ||
+      item.name.includes(str),
   )
   .map((item) => {
     return `${item.country} ${item.city} ${item.name}`;
