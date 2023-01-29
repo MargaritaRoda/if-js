@@ -1,4 +1,5 @@
 import { max, min, pal, sum, replaceZerosToString } from '../src/modules.js';
+import { deepEqual } from '../src/lesson-7.js';
 
 test('Sum of two numbers', () => {
   const x = 2;
@@ -38,4 +39,52 @@ test('Replace number 0 string zero', () => {
     58,
     '3zero',
   ]);
+});
+
+test('Check deepEqual returns true', () => {
+  const obj1 = {
+    a: 'a',
+    b: {
+      a: 'a',
+      b: 'b',
+      c: {
+        a: 1,
+      },
+    },
+  };
+  const obj2 = {
+    b: {
+      c: {
+        a: 1,
+      },
+      b: 'b',
+      a: 'a',
+    },
+    a: 'a',
+  };
+  expect(deepEqual(obj1, obj2)).toBe(true);
+});
+
+test('Check deepEqual returns false', () => {
+  const obj1 = {
+    a: 'a',
+    b: {
+      a: 'a',
+      b: 'b',
+      c: {
+        a: 1,
+      },
+    },
+  };
+  const obj3 = {
+    a: {
+      c: {
+        a: 'a',
+      },
+      b: 'b',
+      a: 'a',
+    },
+    b: 'b',
+  };
+  expect(deepEqual(obj1, obj3)).toBe(false);
 });
