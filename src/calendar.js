@@ -29,6 +29,7 @@ function getCalendarMonth(daysInMonth, daysInWeek, dayOfWeek, period) {
   if (dayOfWeek + 1 > daysInWeek) {
     throw Error('Day of week is greater than week days count');
   }
+  const [checkInDay, checkOutDay] = period;
 
   const calendarMonth = [];
   let startDay = daysInMonth - dayOfWeek + 1;
@@ -46,15 +47,17 @@ function getCalendarMonth(daysInMonth, daysInWeek, dayOfWeek, period) {
 
   for (let i = 0; i < calendarMonth.length; i++) {
     for (let j = 0; j < calendarMonth[i].length; j++) {
+      const currentDayOfWeek = calendarMonth[i][j];
+
       if (
-        (calendarMonth[i][j].dayOfMonth === period[0].dayOfMonth &&
-          calendarMonth[i][j].notCurrentMonth === period[0].notCurrentMonth) ||
-        (calendarMonth[i][j].dayOfMonth === period[1].dayOfMonth &&
-          calendarMonth[i][j].notCurrentMonth === period[1].notCurrentMonth)
+        (currentDayOfWeek.dayOfMonth === checkInDay.dayOfMonth &&
+          currentDayOfWeek.notCurrentMonth === checkInDay.notCurrentMonth) ||
+        (currentDayOfWeek.dayOfMonth === checkOutDay.dayOfMonth &&
+          currentDayOfWeek.notCurrentMonth === checkOutDay.notCurrentMonth)
       ) {
-        calendarMonth[i][j].selectedDay = true;
+        currentDayOfWeek.selectedDay = true;
       } else {
-        calendarMonth[i][j].selectedDay = false;
+        currentDayOfWeek.selectedDay = false;
       }
     }
   }
@@ -72,8 +75,8 @@ function getCalendarMonth(daysInMonth, daysInWeek, dayOfWeek, period) {
       currDay.selectedDay = true;
     }
     if (
-      nextDay.dayOfMonth === period[1].dayOfMonth &&
-      nextDay.notCurrentMonth === period[1].notCurrentMonth
+      nextDay.dayOfMonth === checkOutDay.dayOfMonth &&
+      nextDay.notCurrentMonth === checkOutDay.notCurrentMonth
     ) {
       break;
     }
