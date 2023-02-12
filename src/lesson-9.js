@@ -19,11 +19,8 @@ const colors = {
 };
 
 function getChangeColorFn() {
-  console.log('create listener');
   const iterator = colors[Symbol.iterator]();
-
   return function changeColor(event) {
-    console.log('click');
     event.target.style.color = iterator.next().value;
   };
 }
