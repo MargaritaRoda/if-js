@@ -66,26 +66,15 @@ const homesItemsData = [
 ];
 
 function addHomesItems(containerElement, homesItemsData) {
-  for (const item of homesItemsData) {
+  homesItemsData.forEach((item) => {
     const article = document.createElement('article');
-    article.setAttribute('class', 'homes__item');
-    const imgHotel = document.createElement('img');
-    imgHotel.setAttribute('src', item.imageUrl);
-    imgHotel.setAttribute('class', 'homes__item-img');
-    imgHotel.setAttribute('alt', item.name);
-    const divNameHotel = document.createElement('div');
-    const nameHotel = document.createTextNode(item.name);
-    divNameHotel.appendChild(nameHotel);
-    divNameHotel.setAttribute('class', 'homes__item-title');
-    const divAddress = document.createElement('div');
-    const address = document.createTextNode(`${item.city}, ${item.country}`);
-    divAddress.appendChild(address);
-    divAddress.setAttribute('class', 'homes__item-address');
-    article.appendChild(imgHotel);
-    article.appendChild(divNameHotel);
-    article.appendChild(divAddress);
+    article.innerHTML += `<article class = 'homes__item'>
+        <img src=${item.imageUrl} alt = ${item.name} class='homes__item-img'>
+        <div class='homes__item-title'>${item.name} </div>
+        <div class='homes__item-address'>${item.city} ${item.country}</div>
+      </article>`;
     containerElement.appendChild(article);
-  }
+  });
 }
 
 addHomesItems(document.querySelector('.homes__items'), homesItemsData);
