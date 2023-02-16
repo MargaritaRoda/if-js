@@ -154,7 +154,7 @@ document
     makeMinusListener(
       '.adults-form__number-adult',
       '.adults-btn--plus',
-      1,
+      0,
       30,
       '.top-section__input--adult',
     ),
@@ -166,7 +166,7 @@ document
     makePlusListener(
       '.adults-form__number-adult',
       '.adults-btn--minus',
-      1,
+      0,
       30,
       '.top-section__input--adult',
     ),
@@ -190,7 +190,7 @@ document
     makePlusListener(
       '.adults-form__number-children',
       '.children-btn--minus',
-      1,
+      0,
       10,
       '.top-section__input--child',
     ),
@@ -202,7 +202,7 @@ document
     makeMinusListener(
       '.adults-form__number-room',
       '.room-btn--plus',
-      1,
+      0,
       30,
       '.top-section__input--room',
     ),
@@ -214,7 +214,7 @@ document
     makePlusListener(
       '.adults-form__number-room',
       '.room-btn--minus',
-      1,
+      0,
       30,
       '.top-section__input--room',
     ),
