@@ -286,11 +286,13 @@
                 Adults
               </label>
               <input
+                readonly
                 type="text"
                 id="adult"
                 name="adult"
-                placeholder="2 Adults"
+                value="0 Adults"
                 required
+                data-prefix="Adults"
                 class="top-section__input top-section__input--labeled top-section__input--adult"
               />
             </div>
@@ -302,11 +304,13 @@
                   Children
                 </label>
                 <input
+                  readonly
                   type="text"
                   id="child"
                   name="child"
-                  placeholder="- 0 Children -"
+                  value="0 Children"
                   required
+                  data-prefix="Children"
                   class="top-section__input top-section__input--labeled top-section__input--child"
                 />
               </div>
@@ -316,13 +320,60 @@
             >
               <label for="room" class="top-section__form-label"> Rooms </label>
               <input
+                readonly
                 type="text"
                 id="room"
                 name="room"
-                placeholder="1 Room"
+                value="0 Room"
                 required
+                data-prefix="rooms"
                 class="top-section__input top-section__input--labeled top-section__input--room"
               />
+              <div class="adults-form adults-form--hidden">
+                <div class="adults-form__row">
+                  <div class="adults-form__row-left">Adults</div>
+                  <div class="adults-form__row-right">
+                    <button disabled class="adults-form__btn adults-btn--minus">
+                      -
+                    </button>
+                    <div class="adults-form__number-adult">0</div>
+                    <button class="adults-form__btn adults-btn--plus">+</button>
+                  </div>
+                </div>
+                <div class="adults-form__row">
+                  <div class="adults-form__row-left">Children</div>
+                  <div class="adults-form__row-right">
+                    <button
+                      disabled
+                      class="adults-form__btn children-btn--minus"
+                    >
+                      -
+                    </button>
+                    <div class="adults-form__number-children">0</div>
+                    <button class="adults-form__btn children-btn--plus">
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div class="adults-form__row">
+                  <div class="adults-form__row-left">Rooms</div>
+                  <div class="adults-form__row-right">
+                    <button disabled class="adults-form__btn room-btn--minus">
+                      -
+                    </button>
+                    <div class="adults-form__number-room">0</div>
+                    <button class="adults-form__btn room-btn--plus">+</button>
+                  </div>
+                </div>
+                <div
+                  class="adults-form__children adults-form__children--hidden"
+                >
+                  <p class="adults-form__info">
+                    What is the age of the child you’re travelling with?
+                  </p>
+                  <div class="adults-form__children-container"></div>
+                </div>
+              </div>
             </div>
             <div class="top-section__form-row top-section__form-row--btn">
               <div class="top-section__btn-wrapper">
