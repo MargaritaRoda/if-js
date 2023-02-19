@@ -327,11 +327,11 @@ h6 {
   display: none;
 }
 
-.top-section__input--adult {
+.top-section__input--adults {
   text-align: end;
 }
 
-.top-section__input--child {
+.top-section__input--children {
   border-left: none;
   border-right: none;
   text-align: center;
@@ -342,14 +342,14 @@ h6 {
   flex-direction: column;
 }
 
-.top-section__input--room {
+.top-section__input--rooms {
   border-left: none;
   border-right: none;
   text-align: start;
 }
 
 @media (max-width: 360px) {
-  .top-section__input--room {
+  .top-section__input--rooms {
     border-left: none;
     border-top: 4px solid #f5bd41;
     border-right: 4px solid #f5bd41;
@@ -517,6 +517,7 @@ h6 {
   border-radius: 8px;
   color: #333333;
   font-size: 16px;
+  z-index: 2;
 }
 .adults-form--hidden {
   display: none;

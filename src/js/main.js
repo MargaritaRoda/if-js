@@ -79,161 +79,12 @@ function addHomesItems(containerElement, homesItemsData) {
 
 addHomesItems(document.querySelector('.homes__items'), homesItemsData);
 
-document
-  .querySelector('.top-section__input--adult')
-  .addEventListener('click', showAdultsForm);
-document
-  .querySelector('.top-section__input--child')
-  .addEventListener('click', showAdultsForm);
-document
-  .querySelector('.top-section__input--room')
-  .addEventListener('click', showAdultsForm);
-
+// function which change content page (change target nodes: show table with buttons - & + )
 function showAdultsForm() {
   const list = document.querySelector('.adults-form');
   list.classList.toggle('adults-form--hidden');
 }
-
-function makeMinusListener(
-  numberSelector,
-  plusBtnSelector,
-  min,
-  max,
-  inputSelector,
-) {
-  const number = document.querySelector(numberSelector);
-  const input = document.querySelector(inputSelector);
-  const plusBtn = document.querySelector(plusBtnSelector);
-  return function (event) {
-    event.preventDefault();
-    let value = parseInt(number.textContent, 10);
-
-    if (value === max) {
-      plusBtn.removeAttribute('disabled');
-    }
-
-    value -= 1;
-    number.textContent = value;
-    if (value === min) {
-      event.target.setAttribute('disabled', '');
-    }
-
-    input.value = `${value} ${input.dataset.prefix}`;
-  };
-}
-function makePlusListener(
-  numberSelector,
-  minusBtnSelector,
-  min,
-  max,
-  inputSelector,
-) {
-  const number = document.querySelector(numberSelector);
-  const input = document.querySelector(inputSelector);
-  const minusBtn = document.querySelector(minusBtnSelector);
-  return function (event) {
-    event.preventDefault();
-    let value = parseInt(number.textContent, 10);
-    if (value === min) {
-      minusBtn.removeAttribute('disabled');
-    }
-    value += 1;
-    number.textContent = value;
-    if (value === max) {
-      event.target.setAttribute('disabled', '');
-    }
-
-    input.value = `${value} ${input.dataset.prefix}`;
-  };
-}
-
-document
-  .querySelector('.adults-btn--minus')
-  .addEventListener(
-    'click',
-    makeMinusListener(
-      '.adults-form__number-adult',
-      '.adults-btn--plus',
-      0,
-      30,
-      '.top-section__input--adult',
-    ),
-  );
-document
-  .querySelector('.adults-btn--plus')
-  .addEventListener(
-    'click',
-    makePlusListener(
-      '.adults-form__number-adult',
-      '.adults-btn--minus',
-      0,
-      30,
-      '.top-section__input--adult',
-    ),
-  );
-document
-  .querySelector('.children-btn--minus')
-  .addEventListener(
-    'click',
-    makeMinusListener(
-      '.adults-form__number-children',
-      '.children-btn--plus',
-      0,
-      10,
-      '.top-section__input--child',
-    ),
-  );
-document
-  .querySelector('.children-btn--plus')
-  .addEventListener(
-    'click',
-    makePlusListener(
-      '.adults-form__number-children',
-      '.children-btn--minus',
-      0,
-      10,
-      '.top-section__input--child',
-    ),
-  );
-document
-  .querySelector('.room-btn--minus')
-  .addEventListener(
-    'click',
-    makeMinusListener(
-      '.adults-form__number-room',
-      '.room-btn--plus',
-      0,
-      30,
-      '.top-section__input--room',
-    ),
-  );
-document
-  .querySelector('.room-btn--plus')
-  .addEventListener(
-    'click',
-    makePlusListener(
-      '.adults-form__number-room',
-      '.room-btn--minus',
-      0,
-      30,
-      '.top-section__input--room',
-    ),
-  );
-
-document
-  .querySelector('.children-btn--plus')
-  .addEventListener('click', handleChildrenButtonsClick);
-document
-  .querySelector('.children-btn--minus')
-  .addEventListener('click', handleChildrenButtonsClick);
-function handleChildrenButtonsClick() {
-  const numberOfChildren = document.querySelector(
-    '.adults-form__number-children',
-  );
-  const value = parseInt(numberOfChildren.textContent, 10);
-  createChildrenList(value);
-}
-
+// function which change content page (change target nodes: add list of children ages)
 function createChildrenList(value) {
   const adultsFormChildren = document.querySelector('.adults-form__children');
   if (value !== 0) {
@@ -260,3 +111,108 @@ function createChildrenList(value) {
     childContainer.appendChild(select);
   }
 }
+// function which change content page (change target nodes: change value after button click)
+function updateCounterForm({
+  numberSelector,
+  minusBtnSelector,
+  plusBtnSelector,
+  inputSelector,
+  min,
+  max,
+}) {
+  const number = document.querySelector(numberSelector);
+  const input = document.querySelector(inputSelector);
+  const minusBtn = document.querySelector(minusBtnSelector);
+  const plusBtn = document.querySelector(plusBtnSelector);
+
+  return function (value) {
+    if (value === min) {
+      minusBtn.setAttribute('disabled', '');
+    } else {
+      minusBtn.removeAttribute('disabled');
+    }
+
+    number.textContent = value;
+    if (value === max) {
+      plusBtn.setAttribute('disabled', '');
+    } else {
+      plusBtn.removeAttribute('disabled');
+    }
+
+    input.value = `${value} ${input.dataset.prefix}`;
+  };
+}
+
+// object which  is container current state of global main variables
+const state = {
+  adults: 0,
+  children: 0,
+  rooms: 0,
+  // set  name of variable and run 'list' of changes which will be happened after advent
+  set(name, value) {
+    this[name] = value;
+    this.handleStateUpdate(name);
+  },
+  // get name of field (variable) which state will be changed
+  get(name) {
+    return this[name];
+  },
+  // function which collect list of changes will happen if global variable will be changed
+  handleStateUpdate(changedField) {
+    const listeners = this.listeners[changedField];
+    if (!listeners) {
+      return;
+    }
+    for (const listener of listeners) {
+      listener(this[changedField]);
+    }
+  },
+
+  listeners: {},
+  // create of object of listeners. this is collection and meaning of changes which will happen with global variables
+  //  contain also which nodes will be used during this process
+  addChangeEventListener(field, listener) {
+    if (!this.listeners[field]) {
+      this.listeners[field] = [];
+    }
+    this.listeners[field].push(listener);
+  },
+};
+for (const inputNode of document.querySelectorAll('.js-top-section-counter')) {
+  document
+    .querySelector(`.${inputNode.dataset.field}-btn--minus`)
+    .addEventListener('click', (event) => {
+      event.preventDefault();
+      state.set(
+        inputNode.dataset.field,
+        state.get(inputNode.dataset.field) - 1,
+      );
+    });
+  document
+    .querySelector(`.${inputNode.dataset.field}-btn--plus`)
+    .addEventListener('click', (event) => {
+      event.preventDefault();
+      state.set(
+        inputNode.dataset.field,
+        state.get(inputNode.dataset.field) + 1,
+      );
+    });
+
+  document
+    .querySelector(`.top-section__input--${inputNode.dataset.field}`)
+    .addEventListener('click', showAdultsForm);
+
+  state.addChangeEventListener(
+    inputNode.dataset.field,
+    updateCounterForm({
+      numberSelector: `.adults-form__number-${inputNode.dataset.field}`,
+      minusBtnSelector: `.${inputNode.dataset.field}-btn--minus`,
+      plusBtnSelector: `.${inputNode.dataset.field}-btn--plus`,
+      inputSelector: `.top-section__input--${inputNode.dataset.field}`,
+      min: parseInt(inputNode.dataset.min, 10),
+      max: parseInt(inputNode.dataset.max, 10),
+    }),
+  );
+}
+
+state.addChangeEventListener('children', createChildrenList);

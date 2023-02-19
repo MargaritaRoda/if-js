@@ -293,7 +293,10 @@
                 value="0 Adults"
                 required
                 data-prefix="Adults"
-                class="top-section__input top-section__input--labeled top-section__input--adult"
+                class="top-section__input top-section__input--labeled top-section__input--adults js-top-section-counter"
+                data-field="adults"
+                data-min="0"
+                data-max="30"
               />
             </div>
             <div
@@ -311,7 +314,10 @@
                   value="0 Children"
                   required
                   data-prefix="Children"
-                  class="top-section__input top-section__input--labeled top-section__input--child"
+                  class="top-section__input top-section__input--labeled top-section__input--children js-top-section-counter"
+                  data-field="children"
+                  data-min="0"
+                  data-max="10"
                 />
               </div>
             </div>
@@ -327,7 +333,10 @@
                 value="0 Room"
                 required
                 data-prefix="rooms"
-                class="top-section__input top-section__input--labeled top-section__input--room"
+                class="top-section__input top-section__input--labeled top-section__input--rooms js-top-section-counter"
+                data-field="rooms"
+                data-min="0"
+                data-max="30"
               />
               <div class="adults-form adults-form--hidden">
                 <div class="adults-form__row">
@@ -336,7 +345,7 @@
                     <button disabled class="adults-form__btn adults-btn--minus">
                       -
                     </button>
-                    <div class="adults-form__number-adult">0</div>
+                    <div class="adults-form__number-adults">0</div>
                     <button class="adults-form__btn adults-btn--plus">+</button>
                   </div>
                 </div>
@@ -358,11 +367,11 @@
                 <div class="adults-form__row">
                   <div class="adults-form__row-left">Rooms</div>
                   <div class="adults-form__row-right">
-                    <button disabled class="adults-form__btn room-btn--minus">
+                    <button disabled class="adults-form__btn rooms-btn--minus">
                       -
                     </button>
-                    <div class="adults-form__number-room">0</div>
-                    <button class="adults-form__btn room-btn--plus">+</button>
+                    <div class="adults-form__number-rooms">0</div>
+                    <button class="adults-form__btn rooms-btn--plus">+</button>
                   </div>
                 </div>
                 <div
