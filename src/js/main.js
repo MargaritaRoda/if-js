@@ -43,6 +43,18 @@ function addHomesItems(blockElement, homesItemsData) {
   });
 }
 
+async function renderPopularHotels() {
+  const blockEl = document.querySelector('#js-popular-hotels');
+  try {
+    const response = await fetchHotels('');
+    const homesItemsData = await response.json();
+    addHomesItems(blockEl, homesItemsData);
+  } catch (err) {
+    console.log('Fetch Error :-S', err);
+  }
+}
+
+renderPopularHotels();
 async function getHomesItemsData() {
   const response = await fetchHotels('');
   const homesItemsData = await response.json();
