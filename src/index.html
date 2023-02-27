@@ -256,7 +256,6 @@
                   id="calendar-in"
                   name="calendar-in"
                   placeholder="Tue 15 Sept"
-                  required
                   class="top-section__input top-section__input--labeled top-section__input--calendar-in"
                 />
               </div>
@@ -273,7 +272,6 @@
                   id="calendar-out"
                   name="calendar-out"
                   placeholder="Sat 19 Sept"
-                  required
                   class="top-section__input top-section__input--labeled top-section__input--calendar-out"
                 />
               </div>
@@ -386,7 +384,7 @@
             </div>
             <div class="top-section__form-row top-section__form-row--btn">
               <div class="top-section__btn-wrapper">
-                <button class="top-section__submit-btn" type="submit">
+                <button class="top-section__submit-btn" type="button">
                   Search
                 </button>
               </div>
@@ -407,6 +405,18 @@
         </div>
       </div>
     </main>
+
+    <section class="homes homes__js" id="js-available_hotels">
+      <div class="container homes__container">
+        <h2 class="homes__title">Available hotels</h2>
+        <div class="homes__slider">
+          <div class="homes__items"></div>
+          <div class="homes__slider-next">
+            <div class="slider__arrow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="container section-benefits">
       <h2 class="section-benefits__title">What do we offer</h2>
@@ -439,7 +449,7 @@
       </div>
     </section>
 
-    <section class="homes">
+    <section class="homes" id="js-popular-hotels">
       <div class="container homes__container">
         <h2 class="homes__title">Homes guests loves</h2>
 
