@@ -2,11 +2,11 @@ const inputPlace = document.querySelector('.top-section__input--place');
 const btn = document.querySelector('.top-section__submit-btn');
 btn.addEventListener('click', handleCreateListHotels);
 
-const fetchHotels = async (search) => {
+async function fetchHotels(search) {
   const url = new URL('https://if-student-api.onrender.com/api/hotels');
   url.searchParams.append('search', search.trim());
   return fetch(url);
-};
+}
 
 async function handleCreateListHotels() {
   document.querySelector('.homes').classList.remove('homes__js');
