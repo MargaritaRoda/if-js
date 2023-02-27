@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "prepare": "husky install",
-    "lint": "prettier --write . && eslint src/main.js --fix",
+    "lint": "prettier --write . && eslint src/**/*.js --fix",
     "prepublish": "npm run lint && run test"
   },
   "repository": {
