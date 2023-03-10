@@ -1,27 +1,3 @@
-const inputPlace = document.querySelector('.top-section__input--place');
-const btn = document.querySelector('.top-section__submit-btn');
-btn.addEventListener('click', handleCreateListHotels);
-
-async function fetchHotels(search) {
-  const url = new URL('https://if-student-api.onrender.com/api/hotels');
-  url.searchParams.append('search', search.trim());
-  return fetch(url);
-}
-
-async function handleCreateListHotels() {
-  document.querySelector('.homes').classList.remove('homes__js');
-
-  try {
-    const response = await fetchHotels(inputPlace.value.trim());
-    const homesItemsData = await response.json();
-    addHomesItems(
-      document.getElementById('js-available_hotels'),
-      homesItemsData,
-    );
-  } catch (err) {
-    console.log('Fetch Error :-S', err);
-  }
-}
 const API_HOTELS_URL = 'https://if-student-api.onrender.com/api/hotels';
 const POPULAR_HOTELS_KEY = 'popularHotels';
 
@@ -29,12 +5,6 @@ const inputPlace = document.querySelector('.top-section__input--place');
 const btn = document.querySelector('.top-section__submit-btn');
 btn.addEventListener('click', handleCreateListHotels);
 
-function addHomesItems(blockElement, homesItemsData) {
-  const containerElement = blockElement.querySelector('.homes__items');
-  const nextBtn = blockElement.querySelector('.homes__slider-next');
-  nextBtn.style.display = homesItemsData.length <= 4 ? 'none' : 'flex';
-
-  containerElement.innerHTML = '';
 async function fetchHotels(search) {
   const url = new URL(API_HOTELS_URL);
   url.searchParams.append('search', search.trim());
@@ -73,18 +43,6 @@ function addHomesItems(blockElement, homesItemsData) {
   });
 }
 
-async function renderPopularHotels() {
-  const blockEl = document.querySelector('#js-popular-hotels');
-  try {
-    const response = await fetchHotels('');
-    const homesItemsData = await response.json();
-    addHomesItems(blockEl, homesItemsData);
-  } catch (err) {
-    console.log('Fetch Error :-S', err);
-  }
-}
-
-renderPopularHotels();
 async function getHomesItemsData() {
   const response = await fetchHotels('');
   const homesItemsData = await response.json();
