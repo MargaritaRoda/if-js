@@ -575,6 +575,13 @@ h6 {
 }
 /* adults-form end */
 
+/*homes available start */
+.homes__js {
+  display: none;
+}
+
+/*homes available end*/
+
 /* header starts */
 .header {
   margin: -70px auto;
