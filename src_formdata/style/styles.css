@@ -1,0 +1,22 @@
+.img-item {
+  width: 500px;
+  height: 500px;
+  aspect-ratio: 1/1;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  margin: 100px auto;
+}
+.btn-submit {
+  width: 250px;
+  height: 50px;
+  border: 1px solid #42bfbb;
+  color: #000;
+  background-color: #42bfbb;
+  margin: 50px auto;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
