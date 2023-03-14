@@ -1,30 +1,50 @@
+import { bubbleSort } from './utils.js';
+import state from './state.js';
+
 const API_HOTELS_URL = 'https://if-student-api.onrender.com/api/hotels';
 const POPULAR_HOTELS_KEY = 'popularHotels';
 
-const inputPlace = document.querySelector('.top-section__input--place');
-const btn = document.querySelector('.top-section__submit-btn');
-btn.addEventListener('click', handleCreateListHotels);
-
-async function fetchHotels(search) {
+async function fetchHotels({
+  search = '',
+  adults = 0,
+  childrenAges = [],
+  rooms = 0,
+}) {
   const url = new URL(API_HOTELS_URL);
+  if (adults > 0) {
+    url.searchParams.append('adults', adults.toString());
+    if (childrenAges.length > 0) {
+      url.searchParams.append('children', childrenAges.join(','));
+    }
+    url.searchParams.append('rooms', rooms.toString());
+  }
   url.searchParams.append('search', search.trim());
   return fetch(url);
 }
 
-async function handleCreateListHotels() {
-  document.querySelector('.homes').classList.remove('homes__js');
-
+const inputPlace = document.querySelector('.top-section__input--place');
+const btn = document.querySelector('.top-section__submit-btn');
+btn.addEventListener('click', async () => {
   try {
-    const response = await fetchHotels(inputPlace.value.trim());
+    const response = await fetchHotels({
+      search: inputPlace.value.trim(),
+      adults: state.get('adults'),
+      rooms: state.get('rooms'),
+      childrenAges: state
+        .get('childrenAges')
+        .filter((age) => Number.isInteger(age)),
+    });
     const homesItemsData = await response.json();
     addHomesItems(
       document.getElementById('js-available_hotels'),
       homesItemsData,
     );
+    document.querySelector('.homes').removeAttribute('hidden');
   } catch (err) {
     console.log('Fetch Error :-S', err);
+    document.querySelector('.homes').setAttribute('hidden', '');
   }
-}
+});
 
 function addHomesItems(blockElement, homesItemsData) {
   const containerElement = blockElement.querySelector('.homes__items');
@@ -43,23 +63,19 @@ function addHomesItems(blockElement, homesItemsData) {
   });
 }
 
-async function renderPopularHotels() {
-  const blockEl = document.querySelector('#js-popular-hotels');
-  try {
-    const response = await fetchHotels('');
-    const homesItemsData = await response.json();
-    addHomesItems(blockEl, homesItemsData);
-  } catch (err) {
-    console.log('Fetch Error :-S', err);
-  }
-}
-
-renderPopularHotels();
 async function getHomesItemsData() {
-  const response = await fetchHotels('');
+  const response = await fetchHotels({});
   const homesItemsData = await response.json();
-  sessionStorage.setItem(POPULAR_HOTELS_KEY, JSON.stringify(homesItemsData));
-  return homesItemsData;
+  const sortedHomesItemsData = bubbleSort(homesItemsData, (item1, item2) => {
+    const currentName = item1['name'];
+    const nextName = item2['name'];
+    return currentName.localeCompare(nextName);
+  });
+  sessionStorage.setItem(
+    POPULAR_HOTELS_KEY,
+    JSON.stringify(sortedHomesItemsData),
+  );
+  return sortedHomesItemsData;
 }
 async function renderPopularHotels() {
   const blockEl = document.querySelector('#js-popular-hotels');
@@ -89,37 +105,7 @@ async function renderPopularHotels() {
 renderPopularHotels();
 
 // function which change content page (change target nodes: show table with buttons - & + )
-function showAdultsForm() {
-  const list = document.querySelector('.adults-form');
-  list.classList.toggle('adults-form--hidden');
-}
-// function which change content page (change target nodes: add list of children ages)
-function createChildrenList(value) {
-  const adultsFormChildren = document.querySelector('.adults-form__children');
-  if (value !== 0) {
-    adultsFormChildren.classList.remove('adults-form__children--hidden');
-  } else {
-    adultsFormChildren.classList.add('adults-form__children--hidden');
-  }
 
-  const childContainer = document.querySelector(
-    '.adults-form__children-container',
-  );
-  childContainer.innerHTML = '';
-  for (let i = 1; i <= value; i++) {
-    const select = document.createElement('select');
-    select.setAttribute('class', 'adults-form__child-age');
-
-    const str = 'years old';
-    let strOption = '';
-
-    for (let j = 0; j <= 17; j++) {
-      strOption += `<option value="${j}">${j} ${str}</option>`;
-    }
-    select.innerHTML = strOption;
-    childContainer.appendChild(select);
-  }
-}
 // function which change content page (change target nodes: change value after button click)
 function updateCounterForm({
   numberSelector,
@@ -140,53 +126,15 @@ function updateCounterForm({
     } else {
       minusBtn.removeAttribute('disabled');
     }
-
     number.textContent = value;
     if (value === max) {
       plusBtn.setAttribute('disabled', '');
     } else {
       plusBtn.removeAttribute('disabled');
     }
-
     input.value = `${value} ${input.dataset.prefix}`;
   };
 }
-
-// object which  is container current state of global main variables
-const state = {
-  adults: 0,
-  children: 0,
-  rooms: 0,
-  // set  name of variable and run 'list' of changes which will be happened after advent
-  set(name, value) {
-    this[name] = value;
-    this.handleStateUpdate(name);
-  },
-  // get name of field (variable) which state will be changed
-  get(name) {
-    return this[name];
-  },
-  // function which collect list of changes will happen if global variable will be changed
-  handleStateUpdate(changedField) {
-    const listeners = this.listeners[changedField];
-    if (!listeners) {
-      return;
-    }
-    for (const listener of listeners) {
-      listener(this[changedField]);
-    }
-  },
-
-  listeners: {},
-  // create of object of listeners. this is collection and meaning of changes which will happen with global variables
-  //  contain also which nodes will be used during this process
-  addChangeEventListener(field, listener) {
-    if (!this.listeners[field]) {
-      this.listeners[field] = [];
-    }
-    this.listeners[field].push(listener);
-  },
-};
 
 for (const inputNode of document.querySelectorAll('.js-top-section-counter')) {
   document
@@ -207,10 +155,10 @@ for (const inputNode of document.querySelectorAll('.js-top-section-counter')) {
         state.get(inputNode.dataset.field) + 1,
       );
     });
-
-  document
-    .querySelector(`.top-section__input--${inputNode.dataset.field}`)
-    .addEventListener('click', showAdultsForm);
+  inputNode.addEventListener('click', () => {
+    const list = document.querySelector('.adults-form');
+    list.classList.toggle('adults-form--hidden');
+  });
 
   state.addChangeEventListener(
     inputNode.dataset.field,
@@ -225,4 +173,44 @@ for (const inputNode of document.querySelectorAll('.js-top-section-counter')) {
   );
 }
 
-state.addChangeEventListener('children', createChildrenList);
+state.addChangeEventListener('children', (value) => {
+  state.set('childrenAges', state.get('childrenAges').slice(0, value));
+
+  const adultsFormChildren = document.querySelector('.adults-form__children');
+  if (value !== 0) {
+    adultsFormChildren.classList.remove('adults-form__children--hidden');
+  } else {
+    adultsFormChildren.classList.add('adults-form__children--hidden');
+  }
+
+  const childContainer = document.querySelector(
+    '.adults-form__children-container',
+  );
+  childContainer.innerHTML = '';
+
+  const childrenAges = state.get('childrenAges');
+
+  for (let i = 1; i <= value; i++) {
+    const select = document.createElement('select');
+
+    select.addEventListener('change', (event) => {
+      const childrenAges = state.get('childrenAges');
+      childrenAges[i - 1] = parseInt(event.target.value, 10);
+      state.set('childrenAges', childrenAges);
+    });
+
+    select.setAttribute('class', 'adults-form__child-age');
+
+    const str = 'years old';
+    let strOption = '';
+
+    for (let j = 0; j <= 17; j++) {
+      strOption += `<option value="${j}">${j} ${str}</option>`;
+    }
+    select.innerHTML = strOption;
+    if (childrenAges[i - 1]) {
+      select.value = childrenAges[i - 1].toString();
+    }
+    childContainer.appendChild(select);
+  }
+});
