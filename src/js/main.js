@@ -1,12 +1,15 @@
+const API_HOTELS_URL = 'https://if-student-api.onrender.com/api/hotels';
+const POPULAR_HOTELS_KEY = 'popularHotels';
+
 const inputPlace = document.querySelector('.top-section__input--place');
 const btn = document.querySelector('.top-section__submit-btn');
 btn.addEventListener('click', handleCreateListHotels);
 
-const fetchHotels = async (search) => {
-  const url = new URL('https://if-student-api.onrender.com/api/hotels');
+async function fetchHotels(search) {
+  const url = new URL(API_HOTELS_URL);
   url.searchParams.append('search', search.trim());
   return fetch(url);
-};
+}
 
 async function handleCreateListHotels() {
   document.querySelector('.homes').classList.remove('homes__js');
@@ -40,14 +43,34 @@ function addHomesItems(blockElement, homesItemsData) {
   });
 }
 
+async function getHomesItemsData() {
+  const response = await fetchHotels('');
+  const homesItemsData = await response.json();
+  sessionStorage.setItem(POPULAR_HOTELS_KEY, JSON.stringify(homesItemsData));
+  return homesItemsData;
+}
 async function renderPopularHotels() {
   const blockEl = document.querySelector('#js-popular-hotels');
-  try {
-    const response = await fetchHotels('');
-    const homesItemsData = await response.json();
+
+  if (!(POPULAR_HOTELS_KEY in sessionStorage)) {
+    try {
+      addHomesItems(blockEl, await getHomesItemsData());
+    } catch (err) {
+      console.log('Fetch Error :-S', err);
+    }
+  } else {
+    let homesItemsData;
+    try {
+      homesItemsData = JSON.parse(sessionStorage.getItem(POPULAR_HOTELS_KEY));
+    } catch (err) {
+      try {
+        homesItemsData = await getHomesItemsData();
+      } catch (err) {
+        console.log('Fetch Error :-S', err);
+      }
+    }
+
     addHomesItems(blockEl, homesItemsData);
-  } catch (err) {
-    console.log('Fetch Error :-S', err);
   }
 }
 
