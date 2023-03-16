@@ -8,6 +8,7 @@ const state = {
 
   set(name, value) {
     this[name] = value;
+    console.log(this);
     this.handleStateUpdate(name);
   },
 
