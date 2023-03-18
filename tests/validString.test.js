@@ -1,4 +1,4 @@
-import { isValidString } from '../src/js/valid_string.js';
+import { isValidString } from '../src/js/validString.js';
 test('isValidString method to check syntax object in string', () => {
   const str = '{user: {name: "John", age: 21}}';
   expect(isValidString(str)).toStrictEqual(true);

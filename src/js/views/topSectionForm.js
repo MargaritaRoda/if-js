@@ -1,4 +1,4 @@
-import state from '../state.js';
+import filterState from '../filterState.js';
 
 function updateCounterForm({
   numberSelector,
@@ -37,18 +37,18 @@ function render() {
       .querySelector(`.${inputNode.dataset.field}-btn--minus`)
       .addEventListener('click', (event) => {
         event.preventDefault();
-        state.set(
+        filterState.set(
           inputNode.dataset.field,
-          state.get(inputNode.dataset.field) - 1,
+          filterState.get(inputNode.dataset.field) - 1,
         );
       });
     document
       .querySelector(`.${inputNode.dataset.field}-btn--plus`)
       .addEventListener('click', (event) => {
         event.preventDefault();
-        state.set(
+        filterState.set(
           inputNode.dataset.field,
-          state.get(inputNode.dataset.field) + 1,
+          filterState.get(inputNode.dataset.field) + 1,
         );
       });
     inputNode.addEventListener('click', () => {
@@ -56,7 +56,7 @@ function render() {
       list.classList.toggle('adults-form--hidden');
     });
 
-    state.addChangeEventListener(
+    filterState.addChangeEventListener(
       inputNode.dataset.field,
       updateCounterForm({
         numberSelector: `.adults-form__number-${inputNode.dataset.field}`,
@@ -69,10 +69,10 @@ function render() {
     );
   }
 
-  state.addChangeEventListener('children', (value) => {
-    state.set(
+  filterState.addChangeEventListener('children', (value) => {
+    filterState.set(
       'childrenAges',
-      state
+      filterState
         .get('childrenAges') // change
         .slice(0, value)
         .map((val) => {
@@ -95,15 +95,15 @@ function render() {
     );
     childContainer.innerHTML = '';
 
-    const childrenAges = state.get('childrenAges');
+    const childrenAges = filterState.get('childrenAges');
 
     for (let i = 1; i <= value; i++) {
       const select = document.createElement('select');
 
       select.addEventListener('change', (event) => {
-        const childrenAges = state.get('childrenAges');
+        const childrenAges = filterState.get('childrenAges');
         childrenAges[i - 1] = parseInt(event.target.value, 10);
-        state.set('childrenAges', childrenAges);
+        filterState.set('childrenAges', childrenAges);
       });
 
       select.setAttribute('class', 'adults-form__child-age');

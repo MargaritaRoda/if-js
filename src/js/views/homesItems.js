@@ -1,5 +1,5 @@
 import { fetchHotels } from '../api.js';
-import state from '../state.js';
+import filterState from '../filterState.js';
 import { bubbleSort } from '../utils.js';
 import { POPULAR_HOTELS_KEY } from '../config.js';
 
@@ -54,7 +54,6 @@ async function renderPopularHotels() {
         console.log('Fetch Error :-S', err);
       }
     }
-
     addHomesItems(blockEl, homesItemsData);
   }
 }
@@ -66,10 +65,9 @@ async function render() {
     try {
       const response = await fetchHotels({
         search: inputPlace.value.trim(),
-        adults: state.get('adults'),
-        rooms: state.get('rooms'),
-        childrenAges: state.get('childrenAges'),
-        // .filter((age) => Number.isInteger(age))
+        adults: filterState.get('adults'),
+        rooms: filterState.get('rooms'),
+        childrenAges: filterState.get('childrenAges'),
       });
       const homesItemsData = await response.json();
       addHomesItems(
@@ -77,6 +75,8 @@ async function render() {
         homesItemsData,
       );
       document.querySelector('.homes').removeAttribute('hidden');
+      const list = document.querySelector('.adults-form');
+      list.classList.toggle('adults-form--hidden');
     } catch (err) {
       console.log('Fetch Error :-S', err);
       document.querySelector('.homes').setAttribute('hidden', '');
