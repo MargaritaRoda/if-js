@@ -1,6 +1,6 @@
 const listeners = {};
 
-const state = {
+const filterState = {
   adults: 0,
   children: 0,
   rooms: 0,
@@ -8,6 +8,7 @@ const state = {
 
   set(name, value) {
     this[name] = value;
+    console.log(this);
     this.handleStateUpdate(name);
   },
 
@@ -33,4 +34,4 @@ const state = {
   },
 };
 
-export default state;
+export default filterState;
