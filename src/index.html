@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width initial-scale=1.0" />
     <link rel="stylesheet" href="./style/styles.css" />
+    <link rel="stylesheet" href="./style/calendar.css" />
     <title>TripHouse</title>
   </head>
   <body>
@@ -252,10 +253,11 @@
               </label>
               <div class="top-section__input-wrapper">
                 <input
+                  readonly
                   type="text"
                   id="calendar-in"
                   name="calendar-in"
-                  placeholder="Tue 15 Sept"
+                  value="Tue 15 Sept"
                   class="top-section__input top-section__input--labeled top-section__input--calendar-in"
                 />
               </div>
@@ -268,13 +270,15 @@
               </label>
               <div class="top-section__input-wrapper">
                 <input
+                  readonly
                   type="text"
                   id="calendar-out"
                   name="calendar-out"
-                  placeholder="Sat 19 Sept"
+                  value="Sat 19 Sept"
                   class="top-section__input top-section__input--labeled top-section__input--calendar-out"
                 />
               </div>
+              <div class="form-panel calendar-panel form-panel--hidden"></div>
             </div>
 
             <div
@@ -290,8 +294,8 @@
                 name="adult"
                 value="0 Adults"
                 required
-                data-prefix="Adults"
                 class="top-section__input top-section__input--labeled top-section__input--adults js-top-section-counter"
+                data-prefix="Adults"
                 data-field="adults"
                 data-min="0"
                 data-max="30"
@@ -311,8 +315,8 @@
                   name="child"
                   value="0 Children"
                   required
-                  data-prefix="Children"
                   class="top-section__input top-section__input--labeled top-section__input--children js-top-section-counter"
+                  data-prefix="Children"
                   data-field="children"
                   data-min="0"
                   data-max="10"
@@ -328,15 +332,15 @@
                 type="text"
                 id="room"
                 name="room"
-                value="0 Room"
+                value="0 room"
                 required
-                data-prefix="rooms"
                 class="top-section__input top-section__input--labeled top-section__input--rooms js-top-section-counter"
+                data-prefix="rooms"
                 data-field="rooms"
                 data-min="0"
                 data-max="30"
               />
-              <div class="adults-form adults-form--hidden">
+              <div class="form-panel form-panel--hidden adults-form">
                 <div class="adults-form__row">
                   <div class="adults-form__row-left">Adults</div>
                   <div class="adults-form__row-right">
@@ -797,7 +801,6 @@
       </div>
     </footer>
 
-
     <script type="module" src="js/api.js"></script>
     <script type="module" src="js/config.js"></script>
     <script type="module" src="js/validString.js"></script>
@@ -805,6 +808,7 @@
     <script type="module" src="js/filterState.js"></script>
     <script type="module" src="js/views/topSectionForm.js"></script>
     <script type="module" src="js/views/homesItems.js"></script>
+    <script type="module" src="js/views/calendar.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

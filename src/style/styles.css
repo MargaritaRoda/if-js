@@ -259,6 +259,7 @@ h6 {
   justify-content: end;
   gap: 24px;
   flex: 1;
+  position: relative;
 }
 
 .top-section__form-row--dest {
@@ -271,10 +272,6 @@ h6 {
 
 .top-section__form-row--booking {
   max-width: 11%;
-}
-
-.top-section__form-row--room {
-  position: relative;
 }
 
 .top-section__form-row--btn {
@@ -510,9 +507,7 @@ h6 {
   }
 }
 
-/* top-section ends */
-/*adults-form start */
-.adults-form {
+.form-panel {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -521,15 +516,35 @@ h6 {
   bottom: 0;
   transform: translateY(calc(100% + 12px));
   background: #ffffff;
-  width: 300px;
+  /*width: 300px;*/
   padding: 22px;
   border-radius: 8px;
   color: #333333;
   font-size: 16px;
   z-index: 2;
 }
-.adults-form--hidden {
+
+.form-panel.form-panel--hidden {
   display: none;
+}
+
+/* top-section ends */
+/*adults-form start */
+.adults-form {
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*gap: 12px;*/
+  /*position: absolute;*/
+  /*right: 0;*/
+  /*bottom: 0;*/
+  /*transform: translateY(calc(100% + 12px));*/
+  /*background: #ffffff;*/
+  width: 300px;
+  /*padding: 22px;*/
+  /*border-radius: 8px;*/
+  /*color: #333333;*/
+  /*font-size: 16px;*/
+  /*z-index: 2;*/
 }
 
 .adults-form__row {

@@ -52,6 +52,7 @@ async function renderPopularHotels() {
         homesItemsData = await getHomesItemsData();
       } catch (err) {
         console.log('Fetch Error :-S', err);
+        return;
       }
     }
     addHomesItems(blockEl, homesItemsData);
@@ -65,6 +66,8 @@ async function render() {
     try {
       const response = await fetchHotels({
         search: inputPlace.value.trim(),
+        checkinDate: filterState.get('checkinDate'),
+        checkoutDate: filterState.get('checkoutDate'),
         adults: filterState.get('adults'),
         rooms: filterState.get('rooms'),
         childrenAges: filterState.get('childrenAges'),
@@ -76,11 +79,12 @@ async function render() {
       );
       document.querySelector('.homes').removeAttribute('hidden');
       const list = document.querySelector('.adults-form');
-      list.classList.toggle('adults-form--hidden');
+      list.classList.add('form-panel--hidden');
     } catch (err) {
       console.log('Fetch Error :-S', err);
       document.querySelector('.homes').setAttribute('hidden', '');
     }
+    filterState.set('calendarVisible', false);
   });
   await renderPopularHotels();
 }

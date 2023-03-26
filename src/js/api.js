@@ -5,6 +5,8 @@ export async function fetchHotels({
   adults = 0,
   childrenAges = [],
   rooms = 0,
+  checkinDate = null,
+  checkoutDate = null,
 }) {
   const url = new URL(API_HOTELS_URL);
   if (adults > 0) {
@@ -14,6 +16,11 @@ export async function fetchHotels({
     }
     url.searchParams.append('rooms', rooms.toString());
   }
+  if (checkinDate && checkoutDate) {
+    url.searchParams.append('checkinDate', checkinDate.toISOString());
+    url.searchParams.append('checkoutDate', checkoutDate.toISOString());
+  }
   url.searchParams.append('search', search.trim());
+
   return fetch(url);
 }

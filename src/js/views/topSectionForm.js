@@ -4,12 +4,11 @@ function updateCounterForm({
   numberSelector,
   minusBtnSelector,
   plusBtnSelector,
-  inputSelector,
+  input,
   min,
   max,
 }) {
   const number = document.querySelector(numberSelector);
-  const input = document.querySelector(inputSelector);
   const minusBtn = document.querySelector(minusBtnSelector);
   const plusBtn = document.querySelector(plusBtnSelector);
 
@@ -53,7 +52,7 @@ function render() {
       });
     inputNode.addEventListener('click', () => {
       const list = document.querySelector('.adults-form');
-      list.classList.toggle('adults-form--hidden');
+      list.classList.toggle('form-panel--hidden');
     });
 
     filterState.addChangeEventListener(
@@ -62,7 +61,7 @@ function render() {
         numberSelector: `.adults-form__number-${inputNode.dataset.field}`,
         minusBtnSelector: `.${inputNode.dataset.field}-btn--minus`,
         plusBtnSelector: `.${inputNode.dataset.field}-btn--plus`,
-        inputSelector: `.top-section__input--${inputNode.dataset.field}`,
+        input: inputNode,
         min: parseInt(inputNode.dataset.min, 10),
         max: parseInt(inputNode.dataset.max, 10),
       }),
